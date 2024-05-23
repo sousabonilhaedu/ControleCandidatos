@@ -1,11 +1,13 @@
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SelecionaCandidato {
     public static void main(String[] args) {
-        analisaCandidato();
+        imprimirCandidato();
     }
 
-
+    // Case 2
+    //Percorre a String candidatos e seleciona apenas cinco de acordo com o salarioPretendido sorteado com um numero random
     static void analisaCandidato(){
         String [] candidatos = {"FELIPE","MÁRCIA","JULIA","PAULO","AUGUSTO","MÔNICA","FABRÍCIO","MIRELA","DANIELA","JORGE"};
 
@@ -25,14 +27,43 @@ public class SelecionaCandidato {
         }
     }
 
+    // Case 3 modificado para fazer parte do Case 4 também
+    // tenta contatar o candidato com um valor booleano aleatório com no máximo 3 tentativas
     static void imprimirCandidato(){
         String [] candidatos = {"FELIPE","MÁRCIA","JULIA","PAULO","AUGUSTO"};
 
         for(String candidato : candidatos){
-            System.out.println( candidato + " foi selecionado para entrevista");
+            tentaContatar(candidato);
         }
     }
 
+    //Case 4
+    static void tentaContatar(String candidato){
+        int tentativasRealizadas = 1;
+        boolean continuaTentando = true;
+        boolean atendeu = false;
+        do{
+            atendeu = atender();
+            continuaTentando = !atendeu;
+            if(continuaTentando){
+                tentativasRealizadas++;
+            }else{
+                System.out.println("O contato foi realizado com sucesso!");
+            }
+        }while (continuaTentando && tentativasRealizadas < 3);
+
+        if(atendeu){
+            System.out.println("Conseguimos contatar " + candidato + " com " + tentativasRealizadas + " tentativas.");
+        }
+    }
+
+    static boolean atender(){
+        return new Random().nextInt(3)==1;
+    }
+
+
+
+    //case 1
     static double valorPretendido() {
         return ThreadLocalRandom.current().nextDouble(1800, 2200);
     }
